@@ -29,7 +29,7 @@ class TeaDetailState extends State<TeaDetail> {
   Widget get _overviewCard {
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      child: Padding(
+      child: Container(
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
           child: Table(
             children: [

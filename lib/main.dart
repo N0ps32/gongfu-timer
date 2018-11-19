@@ -1,74 +1,65 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
-import 'package:gongfu_timer/screens/tea_detail.dart';
 
 void main() => runApp(GongfuTimer());
 
-class GongfuTimer extends StatelessWidget {
+class GongfuTimer extends StatefulWidget {
+
+  @override
+  GongfuTimerState createState() {
+    return new GongfuTimerState();
+  }
+
+}
+
+class GongfuTimerState extends State<GongfuTimer> {
+
+  bool _loaded = false;
+  bool _error = true;
 
   @override
   Widget build(BuildContext context) {
+
+    new Timer(Duration(seconds: 5), () {
+        setState(() {
+          //_loaded = true;
+        });
+    });
+
     return MaterialApp(
       title: 'Gongfu Timer',
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Gongfu Timer')
-        ),
-        body: RandomWords()
+          appBar: AppBar(
+              title: Text('Gongfu Timer')
+          ),
+          body: _loaded ? Container(
+            child: Text('loaded'),
+          ) : this._loadingWidget()
       ),
     );
   }
 
-}
-
-class RandomWords extends StatefulWidget {
-  @override
-  RandomWordsState createState() {
-    return new RandomWordsState();
-  }
-}
-
-class RandomWordsState extends State<RandomWords> {
-  final _suggestions = <WordPair>[];
-  final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildSuggestions(),
-    );
-  }
-
-  Widget _buildRow(WordPair pair) {
-    return ListTile(
-      title: Text(
-        pair.join(' '),
-        style: _biggerFont,
+  Widget _loadingWidget() {
+    return _error ? Container(
+      child: MaterialButton(onPressed: () {
+        setState(() {
+          _error = false;
+        });
+      }, child: Text('Tap to retry')),
+    ) : Center(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+            child: CircularProgressIndicator(),
+          ),
+          new Text("Brewing...", style: TextStyle(fontSize: 25)),
+        ],
       ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => TeaDetail())
-        );
-      }
     );
   }
 
-  Widget _buildSuggestions() {
-    return ListView.builder(
-      itemBuilder: (context, i) {
-        if(i.isOdd) {
-          return Divider();
-        }
-
-        final idx = i ~/ 2;
-        if(idx >= _suggestions.length) {
-          _suggestions.addAll(generateWordPairs().take(1000));
-        }
-
-        return _buildRow(_suggestions[idx]);
-      },
-      padding: const EdgeInsets.all(16.0),
-    );
-  }
 }

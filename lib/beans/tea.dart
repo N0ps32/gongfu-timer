@@ -1,5 +1,6 @@
 class Tea {
 
+  int id;
   String name;
   String nativeName;
   int brewingTemp;
@@ -8,7 +9,7 @@ class Tea {
   double brewingTimeIncrease;
   int avgInfusions;
 
-  Tea(this.name, this.nativeName, this.brewingTemp, this.gramsPerMl,
+  Tea(this.id, this.name, this.nativeName, this.brewingTemp, this.gramsPerMl,
       this.brewingTimeS, this.brewingTimeIncrease, this.avgInfusions);
 
 
